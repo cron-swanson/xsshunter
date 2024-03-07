@@ -1,3 +1,7 @@
+Forked from Trufflesecurity's repo and modified to:
+- only let the gmail account specified in the config to log in.
+- allow for short notes to be added to each payload so that its easier to track where that payload was inserted. Done by adding /<custom_note> to the end of the payload path when inserting it into a target, which will then currently show under "Origin" value in the generated report
+
 # XSSHunter
 ## *Sets up in 5 minutes and requires no maintenance*
 
