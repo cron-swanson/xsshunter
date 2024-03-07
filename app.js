@@ -368,7 +368,9 @@ async function get_app_server() {
                 data:{content:"New bXSS Callback from: ${req.body.origin}"}
             });
 
-        };
+        }
+
+	});
 
 	
     // Set up /health handler so the user can
