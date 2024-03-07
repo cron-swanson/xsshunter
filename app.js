@@ -365,7 +365,7 @@ async function get_app_server() {
             axios({
                 method:'post',
                 url:`${process.env.DISCORD_WEBHOOK}`,
-                data:{content:"New bXSS Callback from: ${req.body.origin}"}
+                data:{content:`New bXSS Callback from: ${req.body.origin}`}
             });
 
         }
