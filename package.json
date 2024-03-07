@@ -37,7 +37,8 @@
     "serve-favicon": "^2.5.0",
     "uuid": "^8.3.2",
     "openpgp": "^5.5.0",
-    "vue-moment": "^4.1.0"
+    "vue-moment": "^4.1.0",
+    "axios": "1.6.7"
   },
   "devDependencies": {
     "jest": "^29.4.1"
