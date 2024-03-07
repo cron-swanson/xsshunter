@@ -1,0 +1,17 @@
+version: "3.9"
+services:
+  # XSS Hunter Express service
+  xsshunterexpress:
+    build: .
+    env_file:
+      - dev.env
+    ports:
+      - "127.0.0.1:8080:8080"
+    volumes:
+      # Directory where payload fire images are stored.
+      - ./payload-fire-images:/app/payload-fire-images
+      - /home/cron-swanson/xsshunter/app.js:/app/app.js
+      - /home/cron-swanson/xsshunter/api.js:/app/api.js
+      - /home/cron-swanson/xsshunter/probe.js:/app/probe.js
+#    volumes:
+#      - ~/.config/gcloud/application_default_credentials.json:/gcloud.json

@@ -192,13 +192,7 @@ async function set_up_api_server(app) {
           const oauth2 = google.oauth2({version: 'v2', auth: client});
           const googleUserProfile = await oauth2.userinfo.v2.me.get();
           const email = googleUserProfile.data.email
-          const [user, created] = await Users.findOrCreate({ where: { 'email': email } });
-          if(created){
-            user.path = makeRandomPath(10);
-            user.injectionCorrelationAPIKey = makeRandomPath(20);
-            user.save();
-            console.log(`Created new user ID: ${user.id}`)
-          }
+          const user = await Users.findOne({ where: { 'email': email } });
           req.session.email = user.email;
           req.session.user_id = user.id;
           req.session.authenticated = true;
@@ -389,7 +383,7 @@ async function set_up_api_server(app) {
     app.delete(constants.API_BASE_PATH + 'payloadfires', validate({ body: DeletePayloadFiresSchema }), async (req, res) => {
         console.debug("Deleting payload fires: " + req.body.ids)
         const ids_to_delete = req.body.ids;
-
+	console.debug(`Screenshot Directory is ${SCREENSHOTS_DIR}`);
     	// Pull the corresponding screenshot_ids from the DB so
     	// we can delete all the payload fire images as well as
     	// the payload records themselves.
@@ -402,6 +396,7 @@ async function set_up_api_server(app) {
     		},
     		attributes: ['id', 'screenshot_id', 'encrypted']
     	});
+	console.debug(`Found screenshot_id_records of ${screenshot_id_records}`);
         if ( process.env.USE_CLOUD_STORAGE == "true"){ 
             const storage = new Storage();
             await Promise.all(screenshot_id_records.map(payload => {
@@ -415,11 +410,11 @@ async function set_up_api_server(app) {
             }));
         }else{
             await Promise.all(screenshot_id_records.map(payload => {
-                let filename = "${SCREENSHOTS_DIR}/"
+                let filename = `${SCREENSHOTS_DIR}/`;
                 if(payload.encrypted){
-                    filename = `${payload.screenshot_id}.b64png.enc.gz`
+                    filename = `${payload.screenshot_id}.b64png.enc.gz`;
                 }else{
-                    fileName = `${payload.screenshot_id}.png.gz`;
+                    filename = `${filename}${payload.screenshot_id}.png.gz`;
                 }
                 return asyncfs.unlink(filename);
             }));

