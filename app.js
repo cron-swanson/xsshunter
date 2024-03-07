@@ -20,6 +20,7 @@ const constants = require('./constants.js');
 const Sentry = require('@sentry/node');
 const Tracing = require("@sentry/tracing");
 const Profiling = require("@sentry/profiling-node");
+const axios = require('axios');
 
 function set_secure_headers(req, res) {
 	res.set("X-XSS-Protection", "mode=block");
@@ -361,25 +362,13 @@ async function get_app_server() {
 
         //Send Discord Notification
         if(process.env.DISCORD_NOTIFICATIONS_ENABLED=="true"){
-            let xhr = new XMLHttpRequest();
-            xhr.open("POST", process.env.DISCORD_WEBHOOK);
-            xhr.setRequestHeader("Accept", "application/json");
-            xhr.setRequestHeader("Content-Type", "application/json");
+            axios({
+                method:'post',
+                url:`${process.env.DISCORD_WEBHOOK}`,
+                data:{content:"New bXSS Callback from: ${req.body.origin}"}
+            });
 
-            xhr.onreadystatechange = function () {
-            if (xhr.readyState === 4) {
-                console.log(xhr.status);
-                console.log(xhr.responseText);
-            }};
-
-            let data = `{
-            "content": "New bXSS Callback from: ${req.body.origin}"
-            }`;
-
-            xhr.send(data);
-        }
-
-	});
+        };
 
 	
     // Set up /health handler so the user can
