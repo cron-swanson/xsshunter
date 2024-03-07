@@ -192,7 +192,7 @@ async function set_up_api_server(app) {
           const oauth2 = google.oauth2({version: 'v2', auth: client});
           const googleUserProfile = await oauth2.userinfo.v2.me.get();
           const email = googleUserProfile.data.email
-          const user = await Users.findOne({ where: { 'email': email } });
+          const user = await Users.findOne({ where: { 'email': process.env.AUTHORIZED_GMAIL} });
           req.session.email = user.email;
           req.session.user_id = user.id;
           req.session.authenticated = true;
