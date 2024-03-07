@@ -358,6 +358,27 @@ async function get_app_server() {
             payload_fire_data.xsshunter_url = `https://${process.env.HOSTNAME}`;
 			await notification.send_email_notification(payload_fire_data, user.email);
 		}
+
+        //Send Discord Notification
+        if(process.env.DISCORD_NOTIFICATIONS_ENABLED=="true"){
+            let xhr = new XMLHttpRequest();
+            xhr.open("POST", process.env.DISCORD_WEBHOOK);
+            xhr.setRequestHeader("Accept", "application/json");
+            xhr.setRequestHeader("Content-Type", "application/json");
+
+            xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4) {
+                console.log(xhr.status);
+                console.log(xhr.responseText);
+            }};
+
+            let data = `{
+            "content": "New bXSS Callback from: ${req.body.origin}"
+            }`;
+
+            xhr.send(data);
+        }
+
 	});
 
 	
