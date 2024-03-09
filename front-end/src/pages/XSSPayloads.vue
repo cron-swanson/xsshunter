@@ -13,7 +13,7 @@
                             <h6 class="card-subtitle mb-2 text-muted">{{payload.description}}</h6>
                             <p class="card-text">
                                 <base-input type="text" v-bind:value="payload.func()" placeholder="..."></base-input>
-                                <base-input type="text" v-bind:value="user_note" placeholder="..."></base-input>
+                                <base-input v-model="user_note" type="text" v-bind:value="user_note" placeholder="..."></base-input>
                             </p>
                             <base-button type="primary" v-clipboard:copy="payload.func()">
                             <span style="display: inline-block; margin-right: 6px;"><i class="far fa-copy"></i></span>
