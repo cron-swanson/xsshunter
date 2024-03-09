@@ -13,5 +13,6 @@ services:
       - /home/cron-swanson/xsshunter/app.js:/app/app.js
       - /home/cron-swanson/xsshunter/api.js:/app/api.js
       - /home/cron-swanson/xsshunter/probe.js:/app/probe.js
+      - /home/cron-swanson/xsshunter/front-end/src/pages/XSSPayloads.vue:/app/front-end/src/pages/XSSPayloads.vue
 #    volumes:
 #      - ~/.config/gcloud/application_default_credentials.json:/gcloud.json
